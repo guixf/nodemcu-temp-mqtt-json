@@ -3,7 +3,7 @@ local SSID = "greenhouse"
 local SSID_PASSWORD = "senhasupersecreta"
 local DEVICE = "undefined"
 local timesRunned = 0
-local HOST = "iot.jeanbrito.com"
+local HOST = "192.168.13.56"
 
 -- configure ESP as a station
 wifi.setmode(wifi.STATION)
