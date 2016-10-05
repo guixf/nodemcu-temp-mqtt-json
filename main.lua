@@ -64,7 +64,7 @@ function sendData()
   local times = timesRunned
   local time = rtctime.get()
   timesRunned = timesRunned + 1
-  dataString = '{device:"'.. DEVICE ..'",timestamp:'.. time ..',temperature:' .. t .. ',humidity:' .. h .. ',runned:' .. times .. ',heap:' .. n .. '}'
+  dataString = '{"device":"'.. DEVICE ..'","timestamp":'.. time ..',"temperature":' .. t .. ',"humidity":' .. h .. ',"runned":' .. times .. ',"heap":' .. n .. '}'
   mqtt:publish("sensors/" .. DEVICE .. "/measurement",dataString,0,0, function(conn)
       print("sent: ".. dataString)
     end)
