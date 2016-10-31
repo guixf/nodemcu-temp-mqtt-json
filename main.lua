@@ -3,7 +3,7 @@ local SSID = "greenhouse"
 local SSID_PASSWORD = "senhasupersecreta"
 local DEVICE = "undefined"
 local timesRunned = 0
-local HOST = "192.168.13.56"
+local HOST = "iot.jeanbrito.com"
 
 -- configure ESP as a station
 wifi.setmode(wifi.STATION)
@@ -18,12 +18,12 @@ mqtt = mqtt.Client(DEVICE, 120, "", "")
 -- to topic "/lwt" if client don't send keepalive packet
 mqtt:lwt("devices/" .. DEVICE .. "/status", "offline", 0, 1)
 
-mqtt:on("connect", function(con)
-    print ("connected")
-    mqtt:publish("devices/" .. DEVICE .. "/status","online",0,1, function(conn)
-        print("sent online status for LWT use")
-      end)
-  end)
+---mqtt:on("connect", function(con)
+--    print ("connected")
+--    mqtt:publish("devices/" .. DEVICE .. "/status","online",0,1, function(conn)
+--        print("sent online status for LWT use")
+--      end)
+--  end)
 
 mqtt:on("offline", function(con)
     print ("offline, Reconnecting")
@@ -52,6 +52,9 @@ function check_wifi()
     print(ip)
     mqtt:connect(HOST, 1883, 0, function(conn)
         print("Connected to broker")
+        mqtt:publish("devices/" .. DEVICE .. "/status","online",0,1, function(conn)
+            print("sent online status for LWT use")
+          end)
         sync_rtc()
       end)
     tmr.alarm(1,10000,1,sendData)
