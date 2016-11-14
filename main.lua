@@ -3,7 +3,7 @@ local SSID = "greenhouse"
 local SSID_PASSWORD = "senhasupersecreta"
 local DEVICE = "undefined"
 local timesRunned = 0
-local HOST = "iot.jeanbrito.com"
+local HOST = "192.168.13.91"
 
 -- configure ESP as a station
 wifi.setmode(wifi.STATION)
@@ -29,6 +29,9 @@ mqtt:on("offline", function(con)
     print ("offline, Reconnecting")
     mqtt:connect(HOST, 1883, 0, function(conn)
         print("reconnected to broker")
+        mqtt:publish("devices/" .. DEVICE .. "/status","online",0,1, function(conn)
+            print("sent online status for LWT use")
+          end)
         sync_rtc()
       end)
   end)
